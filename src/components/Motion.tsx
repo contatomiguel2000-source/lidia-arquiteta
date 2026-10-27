@@ -580,47 +580,85 @@ export function AutoVideo({ slug, className = "" }: { slug: string; className?: 
   return <video ref={ref} className={className} src={asset(`/video/${slug}-preview.mp4`)} poster={asset(`/img/reel-${slug}.webp`)} muted loop playsInline preload="none" aria-hidden />;
 }
 
-/* ---------- trajetória: lista com foto que segue o mouse ---------- */
+/* ---------- trajetória: lista com o card do destaque que segue o mouse; clique amplia ---------- */
 export function Timeline() {
   const [hover, setHover] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const box = useRef<HTMLDivElement>(null);
+  const n = timeline.length;
+  const close = useCallback(() => setOpen(null), []);
+  const keys = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") setOpen((v) => (v === null ? v : (v + 1) % n));
+      if (e.key === "ArrowLeft") setOpen((v) => (v === null ? v : (v - 1 + n) % n));
+    },
+    [n],
+  );
+  useEsc(open !== null, close, keys);
+  const CARD_W = 208; // card 9:16 (208 x 370)
   return (
     <div
       ref={box}
       className="relative"
       onMouseMove={(e) => {
         const r = box.current!.getBoundingClientRect();
-        setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
+        const x = e.clientX - r.left;
+        // fica à direita do mouse; perto da borda, passa para a esquerda (nunca sai do container)
+        setPos({ x: x + 28 + CARD_W > r.width ? x - 28 - CARD_W : x + 28, y: e.clientY - r.top });
       }}
       onMouseLeave={() => setHover(null)}
     >
       <ul className="border-t border-line">
         {timeline.map((t, i) => (
-          <li key={t.title} onMouseEnter={() => setHover(i)} className="group grid grid-cols-[4.5rem_1fr] items-center gap-4 border-b border-line py-4 md:grid-cols-[7rem_1fr_auto] md:py-5">
-            <span className="text-[1.05rem] font-medium tabular-nums text-muted transition-colors group-hover:text-pitaya md:text-[1.25rem]">{t.year}</span>
-            <span className="flex items-center gap-3">
-              <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-[4px] md:hidden">
-                <Image src={asset(t.image)} alt="" fill quality={80} sizes="48px" className="object-cover" />
+          <li key={t.title} onMouseEnter={() => setHover(i)} className="border-b border-line">
+            <button type="button" onClick={() => setOpen(i)} className="group grid w-full grid-cols-[4.5rem_1fr] items-center gap-4 py-4 text-left md:cursor-zoom-in md:grid-cols-[7rem_1fr_auto] md:py-5" aria-label={`${t.year}: ${t.title}. Ver destaque`}>
+              <span className="text-[1.05rem] font-medium tabular-nums text-muted transition-colors group-hover:text-pitaya md:text-[1.25rem]">{t.year}</span>
+              <span className="flex items-center gap-3">
+                <span className="relative aspect-[9/16] w-11 shrink-0 overflow-hidden rounded-[4px] bg-mist md:hidden">
+                  <Image src={asset(t.image)} alt="" fill quality={90} sizes="96px" className="object-cover" />
+                </span>
+                <span>
+                  <span className="block text-[1.05rem] font-medium leading-snug tracking-[-0.025em] transition-transform duration-500 md:text-[1.35rem] md:group-hover:translate-x-2">{t.title}</span>
+                  <span className="block text-[0.9rem] text-muted md:hidden">{t.place}</span>
+                </span>
               </span>
-              <span>
-                <span className="block text-[1.05rem] font-medium leading-snug tracking-[-0.025em] transition-transform duration-500 md:text-[1.35rem] md:group-hover:translate-x-2">{t.title}</span>
-                <span className="block text-[0.9rem] text-muted md:hidden">{t.place}</span>
-              </span>
-            </span>
-            <span className="hidden text-[0.95rem] text-muted md:block">{t.place}</span>
+              <span className="hidden text-[0.95rem] text-muted md:block">{t.place}</span>
+            </button>
           </li>
         ))}
       </ul>
       <div
-        className={`pointer-events-none absolute left-0 top-0 z-10 hidden h-56 w-44 overflow-hidden rounded-[6px] shadow-2xl transition-[opacity,scale] duration-300 md:block ${hover !== null ? "scale-100 opacity-100" : "scale-75 opacity-0"}`}
-        style={{ translate: `${pos.x + 24}px ${pos.y - 112}px` }}
+        className={`pointer-events-none absolute left-0 top-0 z-10 hidden aspect-[9/16] overflow-hidden rounded-[8px] bg-mist shadow-2xl transition-[opacity,scale] duration-300 md:block ${hover !== null && open === null ? "scale-100 opacity-100" : "scale-75 opacity-0"}`}
+        style={{ width: CARD_W, translate: `${pos.x}px ${pos.y - 185}px` }}
         aria-hidden
       >
         {timeline.map((t, i) => (
-          <Image key={t.title} src={asset(t.image)} alt="" fill quality={85} sizes="180px" className={`object-cover transition-opacity duration-300 ${hover === i ? "opacity-100" : "opacity-0"}`} />
+          <Image key={t.title} src={asset(t.image)} alt="" fill quality={90} sizes="420px" className={`object-cover transition-opacity duration-300 ${hover === i ? "opacity-100" : "opacity-0"}`} />
         ))}
       </div>
+
+      {open !== null && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center gap-3 bg-night/95 p-4 md:gap-8" onClick={close} role="dialog" aria-modal="true" aria-label={timeline[open].title}>
+          <button type="button" onClick={(e) => (e.stopPropagation(), setOpen((open - 1 + n) % n))} className="flex h-11 w-11 shrink-0 rotate-180 items-center justify-center rounded-full bg-paper/10 text-paper hover:bg-paper hover:text-ink max-sm:absolute max-sm:bottom-5 max-sm:left-5" aria-label="Anterior">
+            <IconRight />
+          </button>
+          <figure className="flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+            <div className="relative aspect-[9/16] h-[78svh] max-w-[88vw] overflow-hidden rounded-[8px]">
+              <Image src={asset(timeline[open].image)} alt={`${timeline[open].year}: ${timeline[open].title}`} fill unoptimized sizes="50vh" className="object-contain" />
+            </div>
+            <figcaption className="mt-3 text-center text-paper">
+              <span className="text-pitaya-soft">{timeline[open].year}</span> · {timeline[open].title}
+            </figcaption>
+          </figure>
+          <button type="button" onClick={(e) => (e.stopPropagation(), setOpen((open + 1) % n))} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-paper/10 text-paper hover:bg-paper hover:text-ink max-sm:absolute max-sm:bottom-5 max-sm:right-5" aria-label="Próximo">
+            <IconRight />
+          </button>
+          <button type="button" className="label absolute right-5 top-5 rounded-full bg-paper/10 px-3 py-1.5 text-paper" aria-label="Fechar">
+            Fechar ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 }

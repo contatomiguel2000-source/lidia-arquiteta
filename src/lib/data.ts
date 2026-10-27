@@ -227,15 +227,15 @@ export const sectors = [
 ];
 
 export const timeline = [
-  { year: "2010", title: "Formada em Arquitetura e Urbanismo", place: "UNIP Campinas", image: "/img/lidia-tablet.webp" },
-  { year: "2016", title: "Campinas Decor: ambiente Lavanderia da Casa", place: "Mostra de decoração", image: "/img/t-2016.webp" },
-  { year: "2019", title: "Mostra + Sustentável: quarto Baía do Sancho", place: "Com Bruna Ferraresi e JP Studio", image: "/img/t-2019.webp" },
-  { year: "2020", title: "Padrão exclusivo de laminado para a Berneck", place: "Expo Revestir, São Paulo", image: "/img/t-2020.webp" },
-  { year: "2021", title: "Convidada VIP do Congresso Mundial UIA", place: "Rio de Janeiro", image: "/img/t-2021.webp" },
-  { year: "2023", title: "Embaixadora do Network Constru e convidada na TV", place: "Programa Mulher.com", image: "/img/t-2023.webp" },
-  { year: "2025", title: "Pitaya Arquitetura Estratégica", place: "Valinhos, SP", image: "/img/lidia-pb.webp" },
-  { year: "2026", title: "Top 30 do Prêmio iBest em arquitetura e decoração", place: "Votação popular nacional", image: "/img/lidia-blazer.webp" },
-  { year: "2026", title: "Palestra para mais de 300 alunos", place: "UNIP Campinas, onde me formei", image: "/img/lidia-unip.webp" },
+  { year: "2010", title: "Formada em Arquitetura e Urbanismo", place: "UNIP Campinas", image: "/img/trajetoria-2010.webp" },
+  { year: "2016", title: "Campinas Decor: ambiente Lavanderia da Casa", place: "Mostra de decoração", image: "/img/trajetoria-2016.webp" },
+  { year: "2018", title: "Mostra + Sustentável: quarto Baía do Sancho", place: "Com Bruna Ferraresi e JP Studio", image: "/img/trajetoria-2018.webp" },
+  { year: "2020", title: "Padrão exclusivo de laminado para a Berneck", place: "Expo Revestir, São Paulo", image: "/img/trajetoria-2020.webp" },
+  { year: "2021", title: "Convidada VIP do Congresso Mundial UIA", place: "Rio de Janeiro", image: "/img/trajetoria-2021.webp" },
+  { year: "2023", title: "Embaixadora do Network Constru e convidada na TV", place: "Programa Mulher.com", image: "/img/trajetoria-2023.webp" },
+  { year: "2025", title: "Pitaya Arquitetura Estratégica", place: "Valinhos, SP", image: "/img/trajetoria-2025.webp" },
+  { year: "2026", title: "Top 30 do Prêmio iBest em arquitetura e decoração", place: "Votação popular nacional", image: "/img/trajetoria-2026-ibest.webp" },
+  { year: "2026", title: "Palestra para mais de 300 alunos", place: "UNIP Campinas, onde me formei", image: "/img/trajetoria-2026-unip.webp" },
 ];
 
 export const education = [
