@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({

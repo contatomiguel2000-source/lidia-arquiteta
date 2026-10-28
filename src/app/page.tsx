@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowLink, DragGallery, Faq, GiantName, Header, Hero, IntroWords, Process, Projects, Sectors, Testimonials, Timeline, VideoCards } from "@/components/Motion";
 import { Counter, Reveal } from "@/components/Reveal";
+import { Cursor, InkSection, RevealImage, SmoothScroll, Split, VelocityMarquee } from "@/components/FX";
 import { IconCheck, IconInstagram, IconLinkedin, IconPin, IconStar, IconTiktok, IconWhatsapp } from "@/components/Icons";
 import { education, moreWork, nav, services, stats, studio } from "@/lib/data";
 import { asset } from "@/lib/base-path";
@@ -10,6 +11,8 @@ const wrap = "mx-auto w-full max-w-[calc(1160px+2rem)] px-4 md:max-w-[calc(1160p
 export default function Home() {
   return (
     <>
+      <SmoothScroll />
+      <Cursor />
       <Header />
       <main>
         <Hero />
@@ -68,9 +71,7 @@ export default function Home() {
         <section className="pb-24 md:pb-36">
           <div className={wrap}>
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-              <h2 className="t-h2">
-                Mais <span className="t-serif">ambientes</span>
-              </h2>
+              <Split text="Mais *ambientes*" className="t-h2" />
               <p className="label text-muted">Arraste para o lado · clique para ampliar</p>
             </div>
             <DragGallery items={moreWork} />
@@ -80,21 +81,10 @@ export default function Home() {
         {/* O que eu faço: faixa corrida */}
         <section className="overflow-hidden border-y border-line py-10 md:py-14">
           <div className={`${wrap} mb-8 grid gap-4 md:grid-cols-[1fr_1fr]`}>
-            <h2 className="t-h2">O que eu faço</h2>
+            <Split text="O que eu *faço*" className="t-h2" />
             <p className="max-w-[26rem] text-muted md:justify-self-end">Cada projeto parte do lugar, do orçamento e de quem vai viver ou trabalhar ali.</p>
           </div>
-          <div className="marquee" aria-hidden>
-            {[0, 1].map((k) => (
-              <div key={k} className="flex shrink-0 items-center">
-                {services.map((s) => (
-                  <span key={s} className="t-serif flex items-center px-4 text-[clamp(2.6rem,6vw,5.2rem)] leading-tight text-[#c8c7c1]">
-                    {s}
-                    <span className="ml-8 text-[0.5em] text-pitaya">/</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
+          <VelocityMarquee items={services} />
           <p className="sr-only">{services.join(", ")}</p>
         </section>
 
@@ -109,34 +99,30 @@ export default function Home() {
         </section>
 
         {/* Vídeos */}
-        <section id="videos" className="py-24 md:py-36">
+        <InkSection id="videos" className="py-24 md:py-36">
           <div className={wrap}>
             <div className="mb-10 grid gap-4 md:grid-cols-[1fr_1fr] md:items-end">
-              <h2 className="t-h1">
-                Projetos em <span className="t-serif">movimento</span>
-              </h2>
-              <p className="max-w-[26rem] text-muted md:justify-self-end">Passe o mouse para ver a prévia. Clique para assistir com som.</p>
+              <Split text="Projetos em *movimento*" className="t-h1" />
+              <p className="max-w-[26rem] text-muted transition-colors duration-700 group-data-[dark=true]/ink:text-paper/70 md:justify-self-end"><span className="max-md:hidden">Passe o mouse para ver a prévia. Clique para assistir com som.</span><span className="md:hidden">As prévias tocam sozinhas. Toque para assistir com som.</span></p>
             </div>
             <VideoCards />
           </div>
-        </section>
+        </InkSection>
 
         {/* Sobre */}
         <section id="sobre" className="bg-mist py-24 md:py-36">
           <div className={`${wrap} grid gap-12 md:grid-cols-[1fr_1.15fr] md:gap-16`}>
             <Reveal className="relative">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[6px]">
+              <RevealImage className="relative aspect-[4/5] overflow-hidden rounded-[6px]">
                 <Image src={asset("/img/lidia-retrato.webp")} alt="Lidia Penteado, arquiteta" fill unoptimized sizes="(min-width: 768px) 540px, 100vw" className="object-cover" />
-              </div>
+              </RevealImage>
               <div className="absolute -bottom-8 right-4 aspect-[4/5] w-[38%] overflow-hidden rounded-[6px] border-4 border-mist shadow-xl md:-right-8">
                 <Image src={asset("/img/lidia-pb.webp")} alt="" fill quality={90} sizes="220px" className="object-cover object-top" />
               </div>
             </Reveal>
             <div className="md:pt-6">
               <p className="label text-muted">(02) Sobre</p>
-              <h2 className="t-h1 mt-4">
-                Espaço, legado <span className="t-serif">e permanência</span>
-              </h2>
+              <Split text="Espaço, legado *e permanência*" className="t-h1 mt-4" />
               <div className="mt-8 space-y-4 text-[1.05rem] leading-relaxed text-muted">
                 <p>
                   Sou Lidia Penteado, arquiteta formada pela UNIP Campinas em 2010 e diretora criativa da <strong className="font-medium text-ink">Pitaya Arquitetura Estratégica</strong>, em Valinhos. Somos sete profissionais e atuamos do conceito à entrega.
@@ -166,9 +152,7 @@ export default function Home() {
         <section id="trajetoria" className="py-24 md:py-36">
           <div className={wrap}>
             <div className="mb-12 grid gap-4 md:grid-cols-[1fr_1fr] md:items-end">
-              <h2 className="t-h1">
-                Uma trajetória <span className="t-serif">de mostras e prêmios</span>
-              </h2>
+              <Split text="Uma trajetória *de mostras e prêmios*" className="t-h1" />
               <div className="flex items-center gap-4 md:justify-self-end">
                 <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ink text-center text-[0.62rem] font-semibold uppercase leading-tight text-paper">
                   Top
@@ -186,9 +170,7 @@ export default function Home() {
         <section id="depoimentos" className="pb-24 md:pb-36">
           <div className={wrap}>
             <div className="mb-12 grid gap-4 md:grid-cols-[1fr_1fr] md:items-end">
-              <h2 className="t-h1">
-                Nas palavras <span className="t-serif">de quem contratou</span>
-              </h2>
+              <Split text="Nas palavras *de quem contratou*" className="t-h1" />
               <a href={studio.mapsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 md:justify-self-end">
                 <span className="flex text-pitaya">
                   {[0, 1, 2, 3, 4].map((k) => (
@@ -208,9 +190,7 @@ export default function Home() {
         <section id="perguntas" className="pb-24 md:pb-36">
           <div className={`${wrap} grid gap-10 md:grid-cols-[1fr_1.6fr]`}>
             <div>
-              <h2 className="t-h1">
-                Antes de <span className="t-serif">você chamar</span>
-              </h2>
+              <Split text="Antes de *você chamar*" className="t-h1" />
               <p className="mt-4 max-w-[20rem] text-muted">As perguntas que eu mais recebo, respondidas.</p>
             </div>
             <Faq />
@@ -223,9 +203,7 @@ export default function Home() {
         <div className={`${wrap} pt-20 md:pt-28`}>
           <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_0.6fr]">
             <div>
-              <h2 className="t-h1">
-                Vamos começar <span className="t-serif">seu projeto?</span>
-              </h2>
+              <Split text="Vamos começar *seu projeto?*" className="t-h1" />
               <p className="mt-4 max-w-[24rem] text-paper/75">A agenda de novos projetos começa em fevereiro de 2027. Entre na lista de espera ou me chame no WhatsApp.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ArrowLink href={studio.waitlist} dark>

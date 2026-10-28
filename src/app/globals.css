@@ -16,8 +16,16 @@
   --font-serif: var(--font-instrument), "Instrument Serif", Georgia, serif;
 }
 
-html {
-  scroll-behavior: smooth;
+/* a rolagem suave é feita pelo Lenis (FX.tsx); scroll-behavior nativo atrapalharia */
+@media (pointer: fine) {
+  html.lenis,
+  html.lenis body {
+    cursor: none;
+  }
+  html.lenis a,
+  html.lenis button {
+    cursor: none;
+  }
 }
 
 body {
@@ -190,11 +198,41 @@ section[id] {
   }
 }
 
+@keyframes heroIn {
+  from {
+    clip-path: inset(14% 10% 14% 10% round 18px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes riseIn {
   from {
     transform: translateY(110%);
   }
   to {
     transform: none;
+  }
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateX(5px);
   }
 }
